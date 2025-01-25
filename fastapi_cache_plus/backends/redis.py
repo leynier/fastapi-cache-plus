@@ -25,20 +25,18 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
         self._redis_address = address
         self._redis_pool_minsize = pool_minsize
         self._encoding = encoding
-
         self._pool: Optional[Redis] = None
 
     @property
     async def _client(self) -> Redis:
         if self._pool is None:
             self._pool = await self._create_connection()
-
         return self._pool
 
     async def _create_connection(self) -> Redis:
         return await aioredis.create_redis_pool(
             self._redis_address,
-            minsize=self._redis_pool_minsize,
+            minsize=self._redis_pool_minsize or 1,
         )
 
     async def add(self, key: RedisKey, value: RedisValue, **kwargs) -> bool:
@@ -55,26 +53,21 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
             return 1
         end
         """
-
         client = await self._client
         in_cache = await client.get(key)
-
         if in_cache is not None:
             return False
-
-        return await client.set(key, value, **kwargs)
+        return bool(await client.set(key, value, **kwargs))
 
     async def get(
         self,
         key: RedisKey,
         default: RedisValue = None,
         **kwargs,
-    ) -> AnyStr:
+    ) -> AnyStr | RedisValue:
         kwargs.setdefault("encoding", self._encoding)
-
         client = await self._client
         cached_value = await client.get(key, **kwargs)
-
         return cached_value if cached_value is not None else default
 
     async def set(
@@ -84,19 +77,16 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
         **kwargs,
     ) -> bool:
         client = await self._client
-
-        return await client.set(key, value, **kwargs)
+        return bool(await client.set(key, value, **kwargs))
 
     async def exists(self, *keys: RedisKey) -> bool:
         client = await self._client
         exists = await client.exists(*keys)
-
         return bool(exists)
 
     async def delete(self, key: RedisKey) -> bool:
         client = await self._client
-
-        return await client.delete(key)
+        return bool(await client.delete(key))
 
     async def flush(self) -> None:
         client = await self._client
@@ -104,8 +94,7 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
 
     async def expire(self, key: RedisKey, ttl: int) -> bool:
         client = await self._client
-
-        return await client.expire(key, ttl)
+        return bool(await client.expire(key, ttl))
 
     async def close(self) -> None:
         client = await self._client

@@ -1,3 +1,5 @@
+from typing import Generator
+
 import pytest
 
 from fastapi_cache_plus.backends.memory import CACHE_KEY, BaseCacheBackend
@@ -5,7 +7,7 @@ from fastapi_cache_plus.registry import CacheRegistry
 
 
 @pytest.fixture
-def cache_registry() -> CacheRegistry:
+def cache_registry() -> Generator[CacheRegistry, None, None]:
     registry = CacheRegistry()
     yield registry
     registry.flush()

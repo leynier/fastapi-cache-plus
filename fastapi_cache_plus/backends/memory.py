@@ -10,23 +10,13 @@ class InMemoryCacheBackend(BaseCacheBackend[Hashable, Any]):
     def __init__(self):
         self._cache = TTLDict()
 
-    async def add(
-        self,
-        key: Hashable,
-        value: Any,
-        **kwargs,
-    ) -> bool:
+    async def add(self, key: Hashable, value: Any, **kwargs) -> bool:
         return self._cache.add(key, value, **kwargs)
 
     async def get(self, key: Hashable, default: Any = None, **kwargs) -> Any:
         return self._cache.get(key, default)
 
-    async def set(
-        self,
-        key: Hashable,
-        value: Any,
-        **kwargs,
-    ) -> bool:
+    async def set(self, key: Hashable, value: Any, **kwargs) -> bool:
         return self._cache.set(key, value, **kwargs)
 
     async def expire(self, key: Hashable, ttl: int) -> bool:
@@ -41,5 +31,5 @@ class InMemoryCacheBackend(BaseCacheBackend[Hashable, Any]):
     async def flush(self) -> None:
         return self._cache.flush()
 
-    async def close(self) -> None:  # pragma: no cover
+    async def close(self) -> None:
         return None

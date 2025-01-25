@@ -14,18 +14,16 @@ class CacheRegistry:
     def set(cls, name: str, cache: BaseCacheBackend) -> None:
         if name in cls._caches:
             raise NameError("Cache with the same name already registered")
-
         cls._caches[name] = cache
 
     @classmethod
-    def all(cls) -> Tuple[BaseCacheBackend]:
+    def all(cls) -> Tuple[BaseCacheBackend, ...]:
         return tuple(cls._caches.values())
 
     @classmethod
     def remove(cls, name: str) -> None:
         if name not in cls._caches:
             raise NameError("Cache with the same name not registered")
-
         del cls._caches[name]
 
     @classmethod
