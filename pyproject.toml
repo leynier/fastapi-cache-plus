@@ -27,7 +27,6 @@ build-backend = "hatchling.build"
 
 [project.urls]
 Homepage = "https://github.com/leynier/fastapi-cache-plus"
-# Documentation = "https://github.com/leynier/fastapi-cache-plus"
 Repository = "https://github.com/leynier/fastapi-cache-plus"
 Issues = "https://github.com/leynier/fastapi-cache-plus/issues"
-# Changelog = "https://github.com/leynier/fastapi-cache-plus"
+Changelog = "https://github.com/leynier/fastapi-cache-plus/blob/master/changelog.md"
