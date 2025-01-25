@@ -19,10 +19,12 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
     def __init__(
         self,
         address: str,
+        db: Optional[int] = None,
         pool_minsize: Optional[int] = DEFAULT_POOL_MIN_SIZE,
         encoding: Optional[str] = DEFAULT_ENCODING,
     ) -> None:
         self._redis_address = address
+        self._redis_db = db
         self._redis_pool_minsize = pool_minsize
         self._encoding = encoding
         self._pool: Optional[Redis] = None
@@ -36,6 +38,7 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
     async def _create_connection(self) -> Redis:
         return await aioredis.create_redis_pool(
             self._redis_address,
+            db=self._redis_db,
             minsize=self._redis_pool_minsize or 1,
         )
 
