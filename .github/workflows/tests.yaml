@@ -2,6 +2,10 @@ name: tests
 
 on:
   push:
+    branches:
+      - "**"
+    tags:
+      - "**"
     tags-ignore:
       - "v*.*.*"
   pull_request:
