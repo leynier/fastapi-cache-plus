@@ -1,6 +1,6 @@
 [project]
 name = "fastapi-cache-plus"
-version = "0.1.1"
+version = "0.1.2"
 description = "FastAPI simple cache"
 readme = "README.md"
 authors = [
