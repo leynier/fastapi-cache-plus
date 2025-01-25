@@ -56,7 +56,12 @@ jobs:
             uv-${{ runner.os }}
 
       - name: Run tests
-        run: uv run pytest
+        run: uv run pytest --cov-branch --cov-report=xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Minimize uv cache
         run: uv cache prune --ci
