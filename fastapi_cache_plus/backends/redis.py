@@ -1,13 +1,13 @@
-from typing import Union, Optional, AnyStr
+from typing import AnyStr, Optional, Union
 
 import aioredis
 from aioredis import Redis
 
 from .base import BaseCacheBackend
 
-DEFAULT_ENCODING = 'utf-8'
+DEFAULT_ENCODING = "utf-8"
 DEFAULT_POOL_MIN_SIZE = 5
-CACHE_KEY = 'REDIS'
+CACHE_KEY = "REDIS"
 
 # expected to be of bytearray, bytes, float, int, or str type
 
@@ -41,12 +41,7 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
             minsize=self._redis_pool_minsize,
         )
 
-    async def add(
-        self,
-        key: RedisKey,
-        value: RedisValue,
-        **kwargs
-    ) -> bool:
+    async def add(self, key: RedisKey, value: RedisValue, **kwargs) -> bool:
         """
         Bad temporary solution, this approach prone to
         race condition error.
@@ -75,7 +70,7 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
         default: RedisValue = None,
         **kwargs,
     ) -> AnyStr:
-        kwargs.setdefault('encoding', self._encoding)
+        kwargs.setdefault("encoding", self._encoding)
 
         client = await self._client
         cached_value = await client.get(key, **kwargs)
@@ -107,11 +102,7 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
         client = await self._client
         await client.flushdb()
 
-    async def expire(
-        self,
-        key: RedisKey,
-        ttl: int
-    ) -> bool:
+    async def expire(self, key: RedisKey, ttl: int) -> bool:
         client = await self._client
 
         return await client.expire(key, ttl)

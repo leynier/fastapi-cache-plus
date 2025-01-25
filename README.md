@@ -1,25 +1,22 @@
-# FastAPI Cache
+# FastAPI Cache Plus
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2ec5c44e899943c8920d3c3e31616784)](https://app.codacy.com/manual/ivan.sushkov/fastapi_cache?utm_source=github.com&utm_medium=referral&utm_content=comeuplater/fastapi_cache&utm_campaign=Badge_Grade_Dashboard)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![PyPi Version](https://img.shields.io/pypi/v/fastapi-cache.svg)](https://pypi.python.org/pypi/fastapi-cache/)
-[![Downloads](https://pepy.tech/badge/fastapi-cache)](https://pepy.tech/project/fastapi-cache)
-[![Build Status](https://travis-ci.com/comeuplater/fastapi_cache.svg?branch=master)](https://travis-ci.com/comeuplater/fastapi_cache)
+> This project is a continuation of the project [fastapi_cache](https://github.com/comeuplater/fastapi_cache). Many thanks to Ivan Sushkov (the original author) for their work and contributions.
 
 Implements simple lightweight cache system as dependencies in FastAPI.
 
 ## Installation
 
 ```sh
-pip install fastapi-cache
+pip install fastapi-cache-plus
 ```
 
 ## Usage example
+
 ```python
 from fastapi import Depends, FastAPI
 
-from fastapi_cache import caches, close_caches
-from fastapi_cache.backends.redis import CACHE_KEY, RedisCacheBackend
+from fastapi_cache_plus import caches, close_caches
+from fastapi_cache_plus.backends.redis import CACHE_KEY, RedisCacheBackend
 
 app = FastAPI()
 
@@ -49,23 +46,3 @@ async def on_startup() -> None:
 async def on_shutdown() -> None:
     await close_caches()
 ```
-
-## TODO
-
-*  [X] Add tests
-*  [ ] ~~Add registry decorator~~
-*  [ ] Add dependency for requests caching
-
-## Acknowledgments
-
-* [Balburdia](https://github.com/Balburdia)
-* [xobtoor](https://github.com/xobtoor)
-* [jersobh](https://github.com/jersobh)
-
-
-## Changelog
-
-* 0.0.6 Added typings for backends. Specific arguments now need to be passed through **kwargs.
-Set default encoding to utf-8 for redis backend, removed default TTL for redis keys.
-  
-* 0.1.0 Added TTL support for InMemoryCacheBackend. Added `expire()` method that update ttl value for key.
