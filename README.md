@@ -25,24 +25,22 @@ def redis_cache():
     return caches.get(CACHE_KEY)
 
 
-@app.get('/')
-async def hello(
-    cache: RedisCacheBackend = Depends(redis_cache)
-):
-    in_cache = await cache.get('some_cached_key')
+@app.get("/")
+async def hello(cache: RedisCacheBackend = Depends(redis_cache)):
+    in_cache = await cache.get("some_cached_key")
     if not in_cache:
-        await cache.set('some_cached_key', 'new_value', 5)
+        await cache.set("some_cached_key", "new_value", 5)
 
-    return {'response': in_cache or 'default'}
+    return {"response": in_cache or "default"}
 
 
-@app.on_event('startup')
+@app.on_event("startup")
 async def on_startup() -> None:
-    rc = RedisCacheBackend('redis://redis')
+    rc = RedisCacheBackend("redis://redis")
     caches.set(CACHE_KEY, rc)
 
 
-@app.on_event('shutdown')
+@app.on_event("shutdown")
 async def on_shutdown() -> None:
     await close_caches()
 ```
