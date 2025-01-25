@@ -64,7 +64,7 @@ class RedisCacheBackend(BaseCacheBackend[RedisKey, RedisValue]):
         key: RedisKey,
         default: RedisValue = None,
         **kwargs,
-    ) -> AnyStr | RedisValue:
+    ) -> Union[AnyStr, RedisValue]:
         kwargs.setdefault("encoding", self._encoding)
         client = await self._client
         cached_value = await client.get(key, **kwargs)
