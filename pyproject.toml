@@ -2,7 +2,7 @@
 name = "fastapi-cache-plus"
 version = "0.1.2"
 description = "FastAPI simple cache"
-readme = "README.md"
+readme = "readme.md"
 authors = [
     { name = "Leynier Gutiérrez González", email = "leynier41@gmail.com" },
 ]
