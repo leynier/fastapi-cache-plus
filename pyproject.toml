@@ -1,11 +1,10 @@
 [project]
 name = "fastapi-cache-plus"
-version = "0.1.0"
+version = "0.1.1"
 description = "FastAPI simple cache"
 readme = "README.md"
 authors = [
     { name = "Leynier Gutiérrez González", email = "leynier41@gmail.com" },
-    { name = "Ivan Sushkov" },
 ]
 license = "MIT"
 requires-python = ">=3.6"
