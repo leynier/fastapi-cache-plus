@@ -6,15 +6,17 @@ on:
       - "v*.*.*"
 
 jobs:
+  tests:
+    uses: ./.github/workflows/tests.yml
+    secrets: inherit
+
   release:
+    needs: tests
     runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Run Tests Workflow
-        uses: ./.github/workflows/tests.yml
 
       - name: Set up Python
         uses: actions/setup-python@v5
