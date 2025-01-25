@@ -3,7 +3,7 @@ from typing import Any, Hashable
 from .base import BaseCacheBackend
 from .utils.ttldict import TTLDict
 
-CACHE_KEY = 'IN_MEMORY'
+CACHE_KEY = "IN_MEMORY"
 
 
 class InMemoryCacheBackend(BaseCacheBackend[Hashable, Any]):
@@ -18,12 +18,7 @@ class InMemoryCacheBackend(BaseCacheBackend[Hashable, Any]):
     ) -> bool:
         return self._cache.add(key, value, **kwargs)
 
-    async def get(
-        self,
-        key: Hashable,
-        default: Any = None,
-        **kwargs
-    ) -> Any:
+    async def get(self, key: Hashable, default: Any = None, **kwargs) -> Any:
         return self._cache.get(key, default)
 
     async def set(
@@ -34,11 +29,7 @@ class InMemoryCacheBackend(BaseCacheBackend[Hashable, Any]):
     ) -> bool:
         return self._cache.set(key, value, **kwargs)
 
-    async def expire(
-        self,
-        key: Hashable,
-        ttl: int
-    ) -> bool:
+    async def expire(self, key: Hashable, ttl: int) -> bool:
         return self._cache.expire(key, ttl)
 
     async def exists(self, *keys: Hashable) -> bool:

@@ -8,9 +8,7 @@ class TTLDict:
 
     def set(self, key: Hashable, value: Any, *, ttl: Optional[int] = None) -> bool:
         try:
-            self._base[key] = (
-                self._get_ttl_timestamp(ttl), value
-            )
+            self._base[key] = (self._get_ttl_timestamp(ttl), value)
             print(self._base)
         except Exception:
             return False
@@ -54,17 +52,10 @@ class TTLDict:
 
         return any(hits)
 
-    def expire(
-        self,
-        key: Hashable,
-        ttl: int
-    ) -> bool:
+    def expire(self, key: Hashable, ttl: int) -> bool:
         if key in self._base:
             _, value = self._base.get(key)
-            self._base[key] = (
-                self._get_ttl_timestamp(ttl),
-                value
-            )
+            self._base[key] = (self._get_ttl_timestamp(ttl), value)
             return True
 
         return False

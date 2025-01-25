@@ -1,0 +1,34 @@
+[project]
+name = "fastapi-cache-plus"
+version = "0.1.0"
+description = "FastAPI simple cache"
+readme = "README.md"
+authors = [
+    { name = "Leynier Gutiérrez González", email = "leynier41@gmail.com" },
+    { name = "Ivan Sushkov" },
+]
+license = "MIT"
+requires-python = ">=3.6"
+keywords = ["redis", "aioredis", "asyncio", "fastapi", "starlette", "cache"]
+# classifiers = [] # https://pypi.org/classifiers/
+dependencies = ["aioredis==1.3.1"]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.1",
+    "pytest-asyncio>=0.16.0",
+    "pytest-cov>=4.0.0",
+    "python-dotenv>=0.20.0",
+    "ruff>=0.0.17",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.urls]
+Homepage = "https://github.com/leynier/fastapi-cache-plus"
+# Documentation = "https://github.com/leynier/fastapi-cache-plus"
+Repository = "https://github.com/leynier/fastapi-cache-plus"
+Issues = "https://github.com/leynier/fastapi-cache-plus/issues"
+# Changelog = "https://github.com/leynier/fastapi-cache-plus"
