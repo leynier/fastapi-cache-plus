@@ -22,7 +22,6 @@ def f_backend() -> RedisCacheBackend:
 @pytest.mark.asyncio
 async def test_should_add_n_get_data(f_backend: RedisCacheBackend) -> None:
     is_added = await f_backend.add(TEST_KEY, TEST_VALUE)
-
     assert is_added is True
     assert await f_backend.get(TEST_KEY) == TEST_VALUE
 
@@ -32,7 +31,6 @@ async def test_should_add_n_get_data_no_encoding(f_backend: RedisCacheBackend) -
     NO_ENCODING_KEY = "bytes"
     NO_ENCODING_VALUE = b"test"
     is_added = await f_backend.add(NO_ENCODING_KEY, NO_ENCODING_VALUE)
-
     assert is_added is True
     assert await f_backend.get(NO_ENCODING_KEY, encoding=None) == bytes(
         NO_ENCODING_VALUE
@@ -45,7 +43,6 @@ async def test_add_should_return_false_if_key_exists(
 ) -> None:
     await f_backend.add(TEST_KEY, TEST_VALUE)
     is_added = await f_backend.add(TEST_KEY, TEST_VALUE)
-
     assert is_added is False
 
 
@@ -55,7 +52,6 @@ async def test_should_return_default_if_key_not_exists(
 ) -> None:
     default = "3.14159"
     fetched_value = await f_backend.get("not_exists", default)
-
     assert fetched_value == default
 
 
@@ -101,19 +97,15 @@ async def test_should_check_is_several_keys_exists(
 ) -> None:
     for key, value in preset:
         await f_backend.add(key, value)
-
     assert await f_backend.exists(*keys) == exists
 
 
 @pytest.mark.asyncio
 async def test_set_should_rewrite_value(f_backend: RedisCacheBackend) -> None:
     eulers_number = "2.71828"
-
     await f_backend.add(TEST_KEY, TEST_VALUE)
     await f_backend.set(TEST_KEY, eulers_number)
-
     fetched_value = await f_backend.get(TEST_KEY)
-
     assert fetched_value == eulers_number
 
 
@@ -121,9 +113,7 @@ async def test_set_should_rewrite_value(f_backend: RedisCacheBackend) -> None:
 async def test_delete_should_remove_from_cache(f_backend: RedisCacheBackend) -> None:
     await f_backend.add(TEST_KEY, TEST_VALUE)
     await f_backend.delete(TEST_KEY)
-
     fetched_value = await f_backend.get(TEST_KEY)
-
     assert fetched_value is None
 
 
@@ -136,12 +126,15 @@ async def test_delete_should_remove_from_cache(f_backend: RedisCacheBackend) -> 
     ],
 )
 async def test_expire_from_cache(
-    key: RedisKey, value: Any, ttl: int, expected: Any, f_backend: RedisCacheBackend
+    key: RedisKey,
+    value: Any,
+    ttl: int,
+    expected: Any,
+    f_backend: RedisCacheBackend,
 ) -> None:
     await f_backend.add(key, value)
     await f_backend.expire(key, ttl)
     fetched_value = await f_backend.get(key)
-
     assert fetched_value == expected
 
 
@@ -151,9 +144,7 @@ async def test_flush_should_remove_all_objects_from_cache(
 ) -> None:
     await f_backend.add("pi", "3.14159")
     await f_backend.add("golden_ratio", "1.61803")
-
     await f_backend.flush()
-
     assert await f_backend.get("pi") is None
     assert await f_backend.get("golden_ratio") is None
 
@@ -179,7 +170,10 @@ async def test_close_should_close_connection(f_backend: RedisCacheBackend) -> No
     ],
 )
 async def test_scalar_types(
-    key: RedisKey, value: Any, expected: Any, f_backend: RedisCacheBackend
+    key: RedisKey,
+    value: Any,
+    expected: Any,
+    f_backend: RedisCacheBackend,
 ) -> None:
     await f_backend.set(key, value)
     assert await f_backend.get(key) == expected
