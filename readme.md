@@ -1,5 +1,7 @@
 # FastAPI Cache Plus
 
+![Static Badge](https://img.shields.io/badge/FastAPI%20Cache-Successor-blue) ![GitHub License](https://img.shields.io/github/license/leynier/fastapi-cache-plus?label=License) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/leynier/fastapi-cache-plus/tests.yaml?label=Tests) [![codecov](https://codecov.io/github/leynier/fastapi-cache-plus/branch/master/graph/badge.svg?token=EGBM54K25J)](https://codecov.io/github/leynier/fastapi-cache-plus) ![PyPI - Version](https://img.shields.io/pypi/v/fastapi-cache-plus?label=Version)
+
 > This project is a continuation of the project [fastapi_cache](https://github.com/comeuplater/fastapi_cache). Many thanks to Ivan Sushkov (the original author) for their work and contributions.
 
 Implements simple lightweight cache system as dependencies in FastAPI.
