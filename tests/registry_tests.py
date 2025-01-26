@@ -3,7 +3,7 @@ from typing import Generator
 import pytest
 
 from fastapi_cache_plus import close_caches
-from fastapi_cache_plus.backends.memory import CACHE_KEY, BaseCacheBackend
+from fastapi_cache_plus.backends.memory import CACHE_KEY, InMemoryCacheBackend
 from fastapi_cache_plus.registry import CacheRegistry
 
 
@@ -23,7 +23,7 @@ def test_get_from_registry_should_return_none_if_cache_not_registered(
 def test_get_from_registry_should_return_cache_instance(
     cache_registry: CacheRegistry,
 ) -> None:
-    cache = BaseCacheBackend()
+    cache = InMemoryCacheBackend()
     cache_registry.set(CACHE_KEY, cache)
     assert cache_registry.get(CACHE_KEY) == cache
 
@@ -31,7 +31,7 @@ def test_get_from_registry_should_return_cache_instance(
 def test_retrieve_all_registered_caches_from_registry(
     cache_registry: CacheRegistry,
 ) -> None:
-    cache = BaseCacheBackend()
+    cache = InMemoryCacheBackend()
     cache_registry.set(CACHE_KEY, cache)
     cache_registry.set("OTHER_CACHE_KEY", cache)
     assert cache_registry.all() == (cache, cache)
@@ -40,14 +40,14 @@ def test_retrieve_all_registered_caches_from_registry(
 def test_registry_should_raise_error_on_dublicate_cache_key(
     cache_registry: CacheRegistry,
 ) -> None:
-    cache = BaseCacheBackend()
+    cache = InMemoryCacheBackend()
     cache_registry.set(CACHE_KEY, cache)
     with pytest.raises(NameError, match="Cache with the same name already registered"):
         cache_registry.set(CACHE_KEY, cache)
 
 
 def test_remove_cache_from_registry(cache_registry: CacheRegistry) -> None:
-    cache = BaseCacheBackend()
+    cache = InMemoryCacheBackend()
     cache_registry.set(CACHE_KEY, cache)
     cache_registry.remove(CACHE_KEY)
     assert cache_registry.get(CACHE_KEY) is None
@@ -63,7 +63,7 @@ def test_remove_cache_from_registry_should_raise_error_if_cache_not_register(
 def test_flush_should_remove_all_registered_cashes(
     cache_registry: CacheRegistry,
 ) -> None:
-    cache = BaseCacheBackend()
+    cache = InMemoryCacheBackend()
     cache_registry.set(CACHE_KEY, cache)
     cache_registry.set("OTHER_CACHE_KEY", cache)
     cache_registry.flush()
@@ -75,7 +75,7 @@ def test_flush_should_remove_all_registered_cashes(
 async def test_close_caches_should_not_raise_exception(
     cache_registry: CacheRegistry,
 ) -> None:
-    cache = BaseCacheBackend()
+    cache = InMemoryCacheBackend()
     cache_registry.set(CACHE_KEY, cache)
     cache_registry.set("OTHER_CACHE_KEY", cache)
     await close_caches()
