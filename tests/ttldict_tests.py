@@ -118,6 +118,20 @@ def test_delete_should_remove_key(
     assert key not in MOCKED_DICT
 
 
+@pytest.mark.parametrize(
+    "key",
+    [
+        ("hello"),
+    ],
+)
+def test_delete_should_return_false_if_key_not_exists(
+    key: Hashable,
+    ttl_dict: TTLDict,
+) -> None:
+    result = ttl_dict.delete(key)
+    assert result is False
+
+
 def test_flush_should_remove_all_keys(ttl_dict: TTLDict) -> None:
     for num in range(10):
         ttl_dict.set(str(num), num)
@@ -219,3 +233,18 @@ def test_expire_from_cache(
     ttl_dict.add(key, value)
     ttl_dict.expire(key, ttl)
     assert ttl_dict.get(key) == expected
+
+
+@pytest.mark.parametrize(
+    "key,ttl",
+    [
+        ["hello", 0],
+    ],
+)
+def test_expire_should_return_false_if_key_not_exists(
+    key: Hashable,
+    ttl: int,
+    ttl_dict: TTLDict,
+) -> None:
+    result = ttl_dict.expire(key, ttl)
+    assert result is False

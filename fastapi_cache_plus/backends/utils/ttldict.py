@@ -10,8 +10,8 @@ class TTLDict:
         try:
             self._base[key] = (self._get_ttl_timestamp(ttl), value)
             print(self._base)
-        except Exception:
-            return False
+        except Exception:  # pragma: no cover
+            return False  # pragma: no cover
         return True
 
     def add(self, key: Hashable, value: Any, *, ttl: Optional[int] = None) -> bool:
